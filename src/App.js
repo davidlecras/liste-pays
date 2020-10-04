@@ -1,9 +1,11 @@
-import React from 'react';
+import React from "react";
+import CountryManager from "./containers/CountryManager/countryManager"
+
 
 function App() {
   return (
-    <div className="App">
-    <h1>Hello</h1>
+    <div className="container">
+      <CountryManager/>
     </div>
   );
 }
