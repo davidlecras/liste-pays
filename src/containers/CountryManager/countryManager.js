@@ -8,12 +8,18 @@ class CountryManager extends Component {
   state = {
     countryList: [],
     loading: false,
+    regionSelected: null,
   };
 
-  loadCountryList = () => {
-    this.setState({ loading: true });
+  showCountryOfSpecificRegion = (region) => {
+    let param = "";
+    if (region === "all") {
+      param = "all";
+    } else {
+      param = `region/${region}`;
+    }
     axios
-      .get("https://restcountries.eu/rest/v2/all")
+      .get(`https://restcountries.eu/rest/v2/${param}`)
       .then((response) => {
         const countryList = response.data.map((country) => {
           return {
@@ -24,24 +30,61 @@ class CountryManager extends Component {
             flag: country.flag,
           };
         });
-        this.setState({ countryList, loading: false });
+        this.setState({ countryList, loading: false, regionSelected: region });
       })
       .catch((error) => console.log(error));
   };
 
   componentDidMount = () => {
-    this.loadCountryList();
+    this.showCountryOfSpecificRegion("all");
   };
   render() {
     return (
       <>
         <Title>Liste des pays du monde</Title>
-        <Button btnType="btn-info">Tous</Button>
-        <Button btnType="btn-info">Afrique</Button>
-        <Button btnType="btn-info">Amérique</Button>
-        <Button btnType="btn-info">Asie</Button>
-        <Button btnType="btn-info">Europe</Button>
-        <Button btnType="btn-info">Océanie</Button>
+        <Button
+          btnType="btn-info"
+          clic={() => this.showCountryOfSpecificRegion("all")}
+          isSelected={this.state.regionSelected === "all"}
+        >
+          Tous
+        </Button>
+        <Button
+          btnType="btn-info"
+          clic={() => this.showCountryOfSpecificRegion("Africa")}
+          isSelected={this.state.regionSelected === "Africa"}
+        >
+          Afrique
+        </Button>
+        <Button
+          btnType="btn-info"
+          clic={() => this.showCountryOfSpecificRegion("Americas")}
+          isSelected={this.state.regionSelected === "Americas"}
+        >
+          Amérique
+        </Button>
+        <Button
+          btnType="btn-info"
+          clic={() => this.showCountryOfSpecificRegion("Asia")}
+          isSelected={this.state.regionSelected === "Asia"}
+        >
+          Asie
+        </Button>
+        <Button
+          btnType="btn-info"
+          clic={() => this.showCountryOfSpecificRegion("Europe")}
+          isSelected={this.state.regionSelected === "Europe"}
+        >
+          Europe
+        </Button>
+        <Button
+          btnType="btn-info"
+          clic={() => this.showCountryOfSpecificRegion("Oceania")}
+          isSelected={this.state.regionSelected === "Oceania"}
+        >
+          Océanie
+        </Button>
+        <p>Nombre de pays: {this.state.countryList.length}</p>
         {this.state.loading ? (
           <p>Chargement en cours...</p>
         ) : (
