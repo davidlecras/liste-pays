@@ -9,6 +9,7 @@ class CountryManager extends Component {
     countryList: [],
     loading: false,
     regionSelected: null,
+    currentPage: 1,
   };
 
   showCountryOfSpecificRegion = (region) => {
@@ -30,7 +31,7 @@ class CountryManager extends Component {
             flag: country.flag,
           };
         });
-        this.setState({ countryList, loading: false, regionSelected: region });
+        this.setState({ countryList, loading: false, regionSelected: region, currentPage:1 });
       })
       .catch((error) => console.log(error));
   };
@@ -39,6 +40,36 @@ class CountryManager extends Component {
     this.showCountryOfSpecificRegion("all");
   };
   render() {
+    let pagination = [];
+    let countryList = "";
+    if (this.state.countryList) {
+      let countryListLength = this.state.countryList.length / 10;
+      if (this.state.countryList.length % 10 !== 0) countryListLength++;
+      for (let i = 1; i <= countryListLength; i++) {
+        pagination.push(
+          <Button
+            key={i}
+            btnType="btn-info"
+            isSelected={this.state.currentPage === i}
+            clic={() => {
+              return this.setState({ currentPage: i });
+            }}
+          >
+            {i}
+          </Button>
+        );
+      }
+      let begin = (this.state.currentPage - 1) * 10;
+      let end = this.state.currentPage * 10;
+      let countryListPaginate = this.state.countryList.slice(begin, end);
+      countryList = countryListPaginate.map((country, index) => {
+        return (
+          <div className="col-12 col-md-6" key={index}>
+            <Country {...country} />
+          </div>
+        );
+      });
+    }
     return (
       <>
         <Title>Liste des pays du monde</Title>
@@ -88,17 +119,9 @@ class CountryManager extends Component {
         {this.state.loading ? (
           <p>Chargement en cours...</p>
         ) : (
-          <div className="row no-gutters">
-            {this.state.countryList.map((country, index) => {
-              return (
-                <div className="col-12 col-md-6" key={index}>
-                  <Country {...country} />
-                </div>
-              );
-            })}
-          </div>
+          <div className="row no-gutters">{countryList}</div>
         )}
-        <div>pagination</div>
+        <div>{pagination}</div>
       </>
     );
   }
