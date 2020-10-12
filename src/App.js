@@ -4,9 +4,7 @@ import CountryManager from "./containers/CountryManager/countryManager"
 
 function App() {
   return (
-    <div className="container">
       <CountryManager/>
-    </div>
   );
 }
 

@@ -71,7 +71,7 @@ class CountryManager extends Component {
       });
     }
     return (
-      <>
+      <div className="container">
         <Title>Liste des pays du monde</Title>
         <Button
           btnType="btn-info"
@@ -115,14 +115,14 @@ class CountryManager extends Component {
         >
           Océanie
         </Button>
-        <p>Nombre de pays: {this.state.countryList.length}</p>
+        <p>Nombre de pays: <span className="badge badge-primary">{this.state.countryList.length}</span></p>
         {this.state.loading ? (
           <p>Chargement en cours...</p>
         ) : (
           <div className="row no-gutters">{countryList}</div>
         )}
-        <div>{pagination}</div>
-      </>
+        <div className="m-5">{pagination}</div>
+      </div>
     );
   }
 }
