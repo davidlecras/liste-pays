@@ -65,7 +65,7 @@ class CountryManager extends Component {
       countryList = countryListPaginate.map((country, index) => {
         return (
           <div className="col-12 col-md-6" key={index}>
-            <Country {...country} />
+            <Country {...country} {...this.props} />
           </div>
         );
       });

@@ -1,6 +1,20 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
-const pays = (props) => {
+const country = (props) => {
+  let content = "";
+  if (!props.isCountryDetailsDisplayed) {
+    content = (
+      <NavLink to={props.match.url + "/" + props.name} className="nav-link">
+        Voir la fiche détaillée
+      </NavLink>
+    );
+  } else {
+    content = (
+    <div>Monaie: {props.currency}</div>,
+    <div> Population: {props.population}</div>
+    )
+  }
   return (
     <div className="row no-gutters border m-2">
       <div className="col-4">
@@ -8,11 +22,12 @@ const pays = (props) => {
       </div>
       <div className="col">
         <h4>Nom: {props.frenchName}</h4>
-        <p>Capitale: {props.capital}</p>
-        <p>Région: {props.continent}</p>
+        <div>Capitale: {props.capital}</div>
+        <div>Région: {props.continent}</div>
+        {content}
       </div>
     </div>
   );
 };
 
-export default pays;
+export default country;
