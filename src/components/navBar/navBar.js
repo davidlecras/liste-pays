@@ -22,7 +22,12 @@ const navBar = (props) => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <NavLink to="/" exact className="nav-link">
+            <NavLink
+              to="/"
+              exact
+              className="nav-link"
+              // activeClassName="active activeHome"
+            >
               Page d'accueil
             </NavLink>
           </li>
